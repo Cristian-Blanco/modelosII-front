@@ -70,7 +70,6 @@ export default {
             this.step = 1;
             this.enableRegister();
         }
-
     }
 }
 </script>

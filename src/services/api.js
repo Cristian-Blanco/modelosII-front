@@ -1,9 +1,10 @@
 const api = 'http://localhost/api';
 const routes = {
-    'film': '/get-films',
+    'film': '/film',
     'language': '/get-language',
 
-    'registerFilm': '/film'
+    'searchFilm': '/search-film'
+
 }  
 
 export default class Api{
@@ -16,7 +17,15 @@ export default class Api{
     }
 
     async filmCreate(body){
-        return await post(routes.registerFilm, body)
+        return await post(routes.film, body)
+    }
+
+    getFilmSearch(search){
+        return get(`${routes.searchFilm}/${search}`)
+    }
+
+    deletFilmSearch(id){
+        return delet(`${routes.film}/${id}`)
     }
 }
 
@@ -39,6 +48,19 @@ function post(url, body){
             method: 'POST',
             headers: headers(),
             body: JSON.stringify(body),
+        })
+        .then(res => res.json())
+        .then(data => {
+            resolve(data)
+        })
+    })
+}
+
+function delet(url){
+    return new Promise((resolve) => {
+        fetch(`${api}${url}`, {
+            method: 'DELETE',
+            headers: headers(),
         })
         .then(res => res.json())
         .then(data => {

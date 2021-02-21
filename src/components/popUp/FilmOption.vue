@@ -34,7 +34,9 @@
             <v-stepper-items>
                 <v-stepper-content step="1">
                         <v-form
-                            ref="form"
+                            ref="formRegister"
+                            v-model="validRegister"
+                            lazy-validation
                         >
                             <v-text-field v-model="titleAdd"
                                 :rules="nameRules"
@@ -85,38 +87,55 @@
                                 required
                             ></v-select>
                         </v-form>
-                    <v-btn @click="createFilm"
+                    <v-btn @click="validateRegister"
                     color="primary"
+                    :disabled="!validRegister"
                     >
                     Guardar
                     </v-btn>
                 </v-stepper-content>
 
                 <v-stepper-content step="2">
-                    <v-card
-                    class="mb-12"
-                    color="grey lighten-1"
-                    height="200px"
-                    >hola</v-card>
-
-                    <v-btn
-                    color="primary"
-                    >
-                    Guardar
-                    </v-btn>
+                    
 
                 </v-stepper-content>
 
                 <v-stepper-content step="3">
-                    <v-card
-                    class="mb-12"
-                    color="grey lighten-1"
-                    height="200px"
-                    >hi</v-card>
-
+                    <v-form
+                        ref="formEliminate"
+                        v-model="validEliminate"
+                        lazy-validation
+                            >
+                        <v-text-field
+                            label="Titulo"
+                            v-model="titleSearch"
+                            required
+                        >
+                        </v-text-field>
+                    </v-form>
                     <v-btn
+                    @click="searchFilm"
                     color="primary"
-                    >Eliminar
+                    >Buscar
+                    </v-btn>
+                    <v-form
+                        ref="formEliminateList"
+                        v-model="validEliminateList"
+                        lazy-validation
+                    >
+                    <v-select
+                        v-model="titleSelect"
+                        :items="listTitleSearch.filmsList"
+                        label="Selecciona Pelicula"
+                        required
+                    >
+                    </v-select>
+                    </v-form>
+                    <v-btn
+                    color="primary" 
+                    @click="eliminateFilm"
+                    >
+                    Eliminar
                     </v-btn>
                 </v-stepper-content>
             </v-stepper-items>
@@ -125,8 +144,8 @@
 </template>
 
 <script>
-
-import Api from '../../services/api'
+import {mapMutations} from 'vuex';
+import Api from '../../services/api';
 
 export default {
     name: 'FilmOption',
@@ -134,6 +153,12 @@ export default {
         step: 1,
         languageItems:[],
         ratingItems:['G', 'PG', 'PG-13', 'R', 'NC-17'],
+
+        validRegister: true,
+        validEliminate: true,
+        titleSearch: '',
+        listTitleSearch: [],
+        titleSelect: '',
 
         titleAdd: '',
         descriptionAdd: '',
@@ -166,28 +191,49 @@ export default {
             v => (v > 0) || 'El costo de la pelicula debe tener un precio mayor a 1 dolar'
         ]
     }),
+   
     mounted(){
         this.getLanguage();
     },
     methods:{
+        ...mapMutations(['enableRegister']),
+        validateRegister(){
+            if(this.$refs.formRegister.validate()){
+                this.createFilm();
+                this.enableRegister()
+            }
+        },
+
         async getLanguage(){
             const api = new Api();
             this.languageItems = await api.getLanguage();
         },
 
+        async searchFilm(){
+            const api = new Api();
+            this.listTitleSearch = await api.getFilmSearch(this.titleSearch);
+        },
+
         async createFilm(){
             const body = {
-                'title': this.titleAdd,
-                'description': this.descriptionAdd,
-                'release_year': this.releaseYearAdd,
-                'language_id': this.languageItems.indexOf(this.languageAdd)+1,
-                'rental_duration': this.rentalDurationAdd,
-                'rental_rate': this.rentalRateAdd,
-                'replacement_cost': this.replacementCostAdd,
-                'rating': this.ratingAdd
+            'title': this.titleAdd,
+            'description': this.descriptionAdd,
+            'release_year': this.releaseYearAdd,
+            'language_id': this.languageItems.indexOf(this.languageAdd)+1,
+            'rental_duration': this.rentalDurationAdd,
+            'rental_rate': this.rentalRateAdd,
+            'replacement_cost': this.replacementCostAdd,
+            'rating': this.ratingAdd
             }
             const api = new Api();
             await api.filmCreate(body);
+            this.titleAdd = this.descriptionAdd = this.releaseYearAdd = this.languageAdd = this.rentalDurationAdd = this.rentalRateAdd = ''
+            this.replacementCostAdd = this.ratingAdd = ''
+        },
+
+        async eliminateFilm(){
+            const api = new Api();
+            api.deletFilmSearch(this.titleSelect)
         }
     }
     

@@ -125,7 +125,7 @@
                     >
                     <v-select
                         v-model="titleSelect"
-                        :items="listTitleSearch.filmsList"
+                        :items="listTitleSearch"
                         label="Selecciona Pelicula"
                         required
                     >

@@ -96,14 +96,9 @@
                 </v-stepper-content>
 
                 <v-stepper-content step="2">
-                    
-
-                </v-stepper-content>
-
-                <v-stepper-content step="3">
                     <v-form
-                        ref="formEliminate"
-                        v-model="validEliminate"
+                        ref="formEdit"
+                        v-model="validEdit"
                         lazy-validation
                             >
                         <v-text-field
@@ -119,8 +114,8 @@
                     >Buscar
                     </v-btn>
                     <v-form
-                        ref="formEliminateList"
-                        v-model="validEliminateList"
+                        ref="formEditList"
+                        v-model="validEditlist"
                         lazy-validation
                     >
                     <v-select
@@ -133,7 +128,51 @@
                     </v-form>
                     <v-btn
                     color="primary" 
-                    @click="eliminateFilm"
+                    @click="editInfo"
+                    >
+                    Seleccionar
+                    </v-btn>
+                    <EditFilm v-if="enableEdit" :infoName="titleSelect" :languageItems="languageItems" :ratingItems="ratingItems" />
+
+                </v-stepper-content>
+
+                <v-stepper-content step="3">
+                    <v-form
+                        ref="formEliminate"
+                        v-model="validEliminate"
+                        lazy-validation
+                            >
+                        <v-text-field
+                            label="Titulo"
+                            v-model="titleSearch"
+                            :rules="nameRules"
+                            required
+                        >
+                        </v-text-field>
+                    </v-form>
+                    <v-btn
+                    @click="validateSearchEliminate"
+                    :disabled="!validEliminate"
+                    color="primary"
+                    >Buscar
+                    </v-btn>
+                    <v-form
+                        ref="formEliminateList"
+                        v-model="validEliminateList"
+                        lazy-validation
+                    >
+                    <v-select
+                        v-model="titleSelect"
+                        :items="listTitleSearch"
+                        :rules="[v => !!v || 'Por favor seleccione la pelicula']"
+                        label="Selecciona Pelicula"
+                        required
+                    >
+                    </v-select>
+                    </v-form>
+                    <v-btn
+                    color="primary" 
+                    @click="validateSearchEliminateList"
                     >
                     Eliminar
                     </v-btn>
@@ -146,6 +185,7 @@
 <script>
 import {mapMutations} from 'vuex';
 import Api from '../../services/api';
+import EditFilm from '../popUp/EditFilm';
 
 export default {
     name: 'FilmOption',
@@ -155,7 +195,15 @@ export default {
         ratingItems:['G', 'PG', 'PG-13', 'R', 'NC-17'],
 
         validRegister: true,
+
         validEliminate: true,
+        validEliminateList: true,
+
+        validEdit: true,
+        validEditlist: true,
+        enableEdit: false,
+
+
         titleSearch: '',
         listTitleSearch: [],
         titleSelect: '',
@@ -191,7 +239,9 @@ export default {
             v => (v > 0) || 'El costo de la pelicula debe tener un precio mayor a 1 dolar'
         ]
     }),
-   
+    components:{
+        EditFilm
+    },
     mounted(){
         this.getLanguage();
     },
@@ -202,6 +252,27 @@ export default {
                 this.createFilm();
                 this.enableRegister()
             }
+        },
+
+        validateSearchEliminate(){
+            if(this.$refs.formEliminate.validate()){
+                this.searchFilm();
+            }
+        },
+
+        validateSearchEliminateList(){
+            if(this.$refs.formEliminateList.validate()){
+                this.eliminateFilm()
+                this.enableRegister()
+            }
+        },
+
+        editInfo(){
+            setTimeout(() => {
+                this.enableEdit = true;
+            }, 10)
+            this.enableEdit = false;
+
         },
 
         async getLanguage(){

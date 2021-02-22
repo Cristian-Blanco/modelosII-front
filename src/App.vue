@@ -1,10 +1,20 @@
 <template>
-  <v-app>
+  <v-app id="inspire">
+
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+    >
+      <Consult/>
+    </v-navigation-drawer>
+
+
     <v-app-bar
       app
       color="primary"
       dark
     >
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
@@ -37,6 +47,7 @@
 
 <script>
 import ListMovie from './components/ListMovie';
+import Consult from './components/Consult';
 import {mapMutations} from 'vuex';
 
 export default {
@@ -44,9 +55,11 @@ export default {
 
   components: {
     ListMovie,
+    Consult
   },
 
   data: () => ({
+    drawer:null
   }),
 
   methods:{

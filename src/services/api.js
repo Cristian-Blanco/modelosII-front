@@ -3,7 +3,8 @@ const routes = {
     'film': '/film',
     'language': '/get-language',
 
-    'searchFilm': '/search-film'
+    'searchFilm': '/search-film',
+    'getOneFilm': '/search-one-film'
 
 }  
 
@@ -17,7 +18,8 @@ export default class Api{
     }
 
     async filmCreate(body){
-        return await post(routes.film, body)
+        await post(routes.film, body)
+        return location.reload();
     }
 
     getFilmSearch(search){
@@ -25,7 +27,18 @@ export default class Api{
     }
 
     deletFilmSearch(id){
-        return delet(`${routes.film}/${id}`)
+        delet(`${routes.film}/${id}`)
+        return location.reload();
+    }
+
+    getOneFilm(name){
+        return get(`${routes.getOneFilm}/${name}`);
+    }
+
+    filmUpdate(body, id){
+        put(`${routes.film}/${id}`, body);
+        return location.reload();
+        
     }
 }
 
@@ -69,19 +82,19 @@ function delet(url){
     })
 }
 
-// function put(url, body={}){
-//     return new Promise((resolve) => {
-//         fetch(`${api}${url}`, {
-//             method: 'PUT',
-//             headers: headers(),
-//             body: JSON.stringify(body)
-//         })
-//         .then(res => res.json())
-//         .then(data => {
-//             resolve(data)
-//         })
-//     })
-// }
+function put(url, body={}){
+    return new Promise((resolve) => {
+        fetch(`${api}${url}`, {
+            method: 'PUT',
+            headers: headers(),
+            body: JSON.stringify(body)
+        })
+        .then(res => res.json())
+        .then(data => {
+            resolve(data)
+        })
+    })
+}
 
 
 function headers(){

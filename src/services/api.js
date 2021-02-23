@@ -26,8 +26,8 @@ export default class Api{
         return get(`${routes.searchFilm}/${search}`)
     }
 
-    deletFilmSearch(id){
-        delet(`${routes.film}/${id}`)
+    async deletFilmSearch(id){
+        await delet(`${routes.film}/${id}`)
         return location.reload();
     }
 
@@ -35,8 +35,8 @@ export default class Api{
         return get(`${routes.getOneFilm}/${name}`);
     }
 
-    filmUpdate(body, id){
-        put(`${routes.film}/${id}`, body);
+    async filmUpdate(body, id){
+        await put(`${routes.film}/${id}`, body);
         return location.reload();
         
     }

@@ -4,11 +4,11 @@
             color="grey lighten-4"
             class="pa-4"
         >
-        <div>LENGUAGE</div>
+        <div>FILTROS</div>
         </v-sheet>
         <v-list>
             <v-list-item
-            v-for="text in language"
+            v-for="text in items"
             :key="text.id"
             link
             >
@@ -17,7 +17,9 @@
             </v-list-item-icon>
 
             <v-list-item-content>
-                <v-list-item-title>{{ text }}</v-list-item-title>
+                <router-link :to="{path: text.router}">
+                    <v-list-item-title>{{ text.name }}</v-list-item-title>
+                </router-link>
             </v-list-item-content>
             </v-list-item>
         </v-list>
@@ -32,8 +34,11 @@ import Api from '../services/api';
   export default {
     data: () => ({
         select: [],
-        language: [
-            
+        items: [
+            {name: 'Idioma', router: '/idioma' },
+            {name: 'Año', router: '/idioma' },
+            {name: 'Calificacion', router: '/idioma' },
+            {name: 'Orden', router: '/idioma' },
         ],
         
     }),

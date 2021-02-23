@@ -15,17 +15,23 @@
       dark
     >
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <router-link to="/">
       <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://www.parquelacolina.com/wp-content/uploads/2018/11/movies-logo.png"
-          transition="scale-transition"
-          width="40"
-        />
-        <h1>VideoMaker</h1>
-      </div>
+            <v-img
+                alt="Vuetify Logo"
+                class="shrink mr-2"
+                contain
+                src="https://www.parquelacolina.com/wp-content/uploads/2018/11/movies-logo.png"
+                transition="scale-transition"
+                width="40"
+              />
+              
+          
+
+         
+        </div>
+        </router-link> 
+        <h1>Application</h1>
 
       <v-spacer></v-spacer>
 
@@ -40,13 +46,12 @@
     </v-app-bar>
 
     <v-main>
-      <ListMovie/>
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import ListMovie from './components/ListMovie';
 import Consult from './components/Consult';
 import {mapMutations} from 'vuex';
 
@@ -54,7 +59,6 @@ export default {
   name: 'App',
 
   components: {
-    ListMovie,
     Consult
   },
 

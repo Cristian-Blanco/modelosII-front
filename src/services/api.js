@@ -4,7 +4,9 @@ const routes = {
     'language': '/get-language',
 
     'searchFilm': '/search-film',
-    'getOneFilm': '/search-one-film'
+    'getOneFilm': '/search-one-film',
+
+    'consultLenguage': '/get-film-by-language'
 
 }  
 
@@ -39,6 +41,10 @@ export default class Api{
         await put(`${routes.film}/${id}`, body);
         return location.reload();
         
+    }
+
+    consultLanguageFilm(language, page){
+        return get(`${routes.consultLenguage}/${language}?page=${page}`)
     }
 }
 

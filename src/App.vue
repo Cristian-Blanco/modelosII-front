@@ -1,6 +1,7 @@
 <template>
   <v-app id="inspire">
-
+      <PopUp/>
+    
     <v-navigation-drawer
       v-model="drawer"
       app
@@ -54,12 +55,14 @@
 <script>
 import Consult from './components/Consult';
 import {mapMutations} from 'vuex';
+import PopUp from './components/PopUp'
 
 export default {
   name: 'App',
 
   components: {
-    Consult
+    Consult,
+    PopUp
   },
 
   data: () => ({

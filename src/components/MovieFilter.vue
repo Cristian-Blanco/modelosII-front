@@ -1,8 +1,8 @@
 <template>
-  <div>
+    <div>
         <v-row no-gutters>
             <v-col
-                v-for="film in listFilm"
+                v-for="film in dataMovie"
                 :key="film.id"
                 cols="6"
                 class="pa-3"
@@ -61,42 +61,12 @@
                 </v-card>
             </v-col>
         </v-row>
-      <infinite-loading @infinite="getFilm"></infinite-loading>
     </div>
 </template>
 
 <script>
-
-import Api from '../services/api';
-import InfiniteLoading from 'vue-infinite-loading';
-
-  export default {
-    name: 'ListMovie',
-    data: () => ({
-      page: 1,
-      film: [],
-      listFilm: []
-    }),
-
-    components:{
-      InfiniteLoading,
-
-    },
-
-    methods:{
-
-
-      async getFilm($state){
-        const api = new Api();
-        this.film = await api.paginatorFilm(this.page);
-        if(this.page <= this.film.last_page){
-          this.page+=1;
-          this.listFilm.push(...this.film.data);
-          $state.loaded();
-        }else{
-          $state.complete();
-        }
-      }
-    }
-  }
+export default {
+    name: 'MovieFilter',
+    props: ['dataMovie']
+}
 </script>

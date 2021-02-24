@@ -11,9 +11,6 @@
                         <v-card-actions>
                             <v-row>
                                 <v-col md="2">
-                                    <v-btn width="100" rounded color="#D2B4DE" @click="step=1">Atras</v-btn>
-                                </v-col>
-                                <v-col >
                                     <v-btn width="100" rounded color="#D2B4DE" @click="exitRegister" >Salir</v-btn>
                                 </v-col>
                             </v-row>

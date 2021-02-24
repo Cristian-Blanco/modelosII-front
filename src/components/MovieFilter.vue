@@ -18,44 +18,40 @@
                                 v-text="film.title"
                             ></v-card-title>
                             <v-card-subtitle v-text="film.description"></v-card-subtitle>
-                            <v-card-actions>
-                                <v-btn  class="ml-2 mt-5"
-                                        fab
-                                    icon
-                                    height="40px"
-                                    right
-                                    width="40px"
-                                >
-                                    <v-icon>mdi-heart</v-icon>
-                                </v-btn>
-                
-                                <v-btn  class="ml-2 mt-5"
-                                    fab
-                                    icon
-                                    height="40px"
-                                    right
-                                    width="40px"
-                                    >
-                                    <v-icon >mdi-bookmark</v-icon>
-                                </v-btn>
-                
-                                <v-btn  class="ml-2 mt-5"
-                                    fab
-                                    icon
-                                    height="40px"
-                                    right
-                                    width="40px"
-                                    >
-                                    <v-icon >mdi-share-variant</v-icon>
-                                </v-btn>
-                            </v-card-actions>
+                            <v-row>
+                                <v-col>
+                                    <v-card-text>Año Realizada: </v-card-text>
+                                </v-col>
+                                <v-col>
+                                    <v-card-text v-text="film.release_year"></v-card-text>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col>
+                                    <v-card-text>Clasificacion: </v-card-text>
+                                </v-col>
+                                <v-col>
+                                    <v-card-text v-text="film.rating"></v-card-text>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col>
+                                    <v-card-text>Precio de Renta: </v-card-text>
+                                </v-col>
+                                <v-col>
+                                    <v-card-text v-text="film.rental_rate"></v-card-text>
+                                </v-col>
+                            </v-row>
+
+
+                            
                         </div>
                         <v-avatar
                             class="ma-3"
                             size="125"
                             tile
                         >
-                            <v-img ></v-img>
+                            <v-img :src="film.image"></v-img>
                         </v-avatar>
                     </div>
                 </v-card>

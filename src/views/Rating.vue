@@ -1,51 +1,50 @@
 <template>
     <div>
-        <br>
+         <br>
         <v-row
             align="center"
             justify="space-around"
         >
+        <v-divider></v-divider>
             <v-btn 
             text
-            @click="languageChange('English')"
+            @click="ratingChange('G')"
             >
-            Ingles
+            G
             </v-btn>
+            <v-divider></v-divider>
             <v-btn
             text
-            @click="languageChange('Italian')"
+            @click="ratingChange('NC-17')"
             >
-            Italiano
+            NC-17
             </v-btn>
+            <v-divider></v-divider>
             <v-btn
             text
-            @click="languageChange('Japanese')"
+            @click="ratingChange('PG')"
             >
-            Japones
+            PG
             </v-btn>
+            <v-divider></v-divider>
             <v-btn
             text
-            @click="languageChange('Mandarin')"
+            @click="ratingChange('PG-13')"
             >
-            Mandarin
+            PG-13
             </v-btn>
+            <v-divider></v-divider>
             <v-btn
             text
-            @click="languageChange('French')"
+            @click="ratingChange('R')"
             >
-            Frances
+            R
             </v-btn>
-            <v-btn
-            text
-            @click="languageChange('German')"
-            >
-            Aleman
-            </v-btn>
+            <v-divider></v-divider>
         </v-row>
         <br>
         <MovieFilter :dataMovie="movieScroll" />
-        <infinite-loading v-if="language != '' && enabled" @infinite="getMovieLanguage"></infinite-loading>            
-
+        <infinite-loading v-if="rating != '' && enabled" @infinite="getMovieRating"></infinite-loading> 
     </div>
 </template>
 
@@ -61,8 +60,9 @@ export default {
         page:1,
         movie: [],
         movieScroll: [],
-        language: '',
+        rating: '',
         enabled: true,
+
     }),
     components: {
         MovieFilter,
@@ -70,8 +70,8 @@ export default {
     },
 
     methods:{
-        languageChange(name){
-            this.language = name;
+        ratingChange(name){
+            this.rating = name;
             this.movieScroll = [];
             this.page=1;
             setTimeout(() => {
@@ -80,10 +80,10 @@ export default {
             this.enabled = false;
         },
 
-        async getMovieLanguage($state){
-            if(this.language != ''){
+        async getMovieRating($state){
+            if(this.rating != ''){
                 const api = new Api();
-                this.movie = await api.consultLanguageFilm(this.language, this.page);
+                this.movie = await api.consultRatingFilm(this.rating,this.page);
                 if(this.page <= this.movie.last_page){
                     this.page+=1;
                     this.movieScroll.push(...this.movie.data);

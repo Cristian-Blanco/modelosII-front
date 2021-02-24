@@ -6,7 +6,9 @@ const routes = {
     'searchFilm': '/search-film',
     'getOneFilm': '/search-one-film',
 
-    'consultLenguage': '/get-film-by-language'
+    'consultLenguage': '/get-film-by-language',
+    'consultYear': '/get-film-by-year',
+    'consultRating': '/get-film-rating'
 
 }  
 
@@ -17,6 +19,10 @@ export default class Api{
 
     getLanguage(){
         return get(routes.language)
+    }
+
+    searchFilmTitle(title, page){
+        return get(`${routes.film}/${title}?page=${page}`);
     }
 
     async filmCreate(body){
@@ -44,7 +50,15 @@ export default class Api{
     }
 
     consultLanguageFilm(language, page){
-        return get(`${routes.consultLenguage}/${language}?page=${page}`)
+        return get(`${routes.consultLenguage}/${language}?page=${page}`);
+    }
+
+    consultYearFilm(page){
+        return get(`${routes.consultYear}?page=${page}`);
+    }
+
+    consultRatingFilm(rating, page){
+        return get(`${routes.consultRating}/${rating}?page=${page}`);
     }
 }
 

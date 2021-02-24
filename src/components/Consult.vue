@@ -36,9 +36,8 @@ import Api from '../services/api';
         select: [],
         items: [
             {name: 'Idioma', router: '/idioma' },
-            {name: 'Año', router: '/idioma' },
-            {name: 'Calificacion', router: '/idioma' },
-            {name: 'Orden', router: '/idioma' },
+            {name: 'Año Lanzamiento', router: '/ultimas-peliculas' },
+            {name: 'Clasificacion', router: '/clasificacion' },
         ],
         
     }),

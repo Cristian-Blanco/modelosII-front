@@ -15,6 +15,7 @@
       color="primary"
       dark
     >
+
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <router-link to="/">
       <div class="d-flex align-center">
@@ -32,8 +33,21 @@
          
         </div>
         </router-link> 
-        <h1>Application</h1>
+        <h1>VideoMaker</h1>
 
+      <v-spacer></v-spacer>
+
+        <v-responsive max-width="400">
+          <v-text-field
+            dense
+            flat
+            hide-details
+            rounded
+            solo-inverted
+            @input="searchFilm"
+            v-model="titleFilm"
+          ></v-text-field>
+        </v-responsive>
       <v-spacer></v-spacer>
 
       <v-btn
@@ -47,7 +61,13 @@
     </v-app-bar>
 
     <v-main>
-      <router-view />
+      <div v-if="titleFilm != ''">
+        <MovieFilter :dataMovie="listFilm" />
+        <infinite-loading v-if="enabled && titleFilm != ''" @infinite="infoFilm"></infinite-loading>            
+      </div>
+      <div v-else>
+        <router-view />
+      </div>
     </v-main>
   </v-app>
 </template>
@@ -56,21 +76,53 @@
 import Consult from './components/Consult';
 import {mapMutations} from 'vuex';
 import PopUp from './components/PopUp'
+import Api from './services/api';
+import MovieFilter from './components/MovieFilter.vue';
+import InfiniteLoading from 'vue-infinite-loading';
+
 
 export default {
   name: 'App',
 
   components: {
     Consult,
-    PopUp
+    PopUp,
+    MovieFilter,
+    InfiniteLoading
   },
 
   data: () => ({
-    drawer:null
+    page:1,
+    drawer:null,
+    titleFilm: '',
+    film: [],
+    listFilm: [],
+    enabled: false
   }),
 
   methods:{
     ...mapMutations(['enableRegister']),
+
+    searchFilm(){
+      this.listFilm = [];
+      this.page=1;
+      setTimeout(() => {
+          this.enabled = true;
+      }, 100)
+      this.enabled = false;
+    },
+
+    async infoFilm($state){
+      const api = new Api();
+      this.film = await api.searchFilmTitle(this.titleFilm, this.page);
+      if(this.page <= this.film.last_page){
+          this.page+=1;
+          this.listFilm.push(...this.film.data);
+          $state.loaded();
+      }else{
+          $state.complete();
+      }
+    }
   }
 };
 </script>

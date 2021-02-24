@@ -51,7 +51,7 @@
                             size="125"
                             tile
                         >
-                            <v-img :src="film.image"></v-img>
+                            <v-img src="https://institutolap.com/sites/ilap-internacional/files/636055955513037869162211565_movie.jpg"></v-img>
                         </v-avatar>
                     </div>
                 </v-card>

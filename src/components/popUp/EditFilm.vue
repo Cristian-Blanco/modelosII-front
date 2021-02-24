@@ -105,7 +105,8 @@ export default {
 
         replacementCostRule:[
             v => (v > 0) || 'El costo de la pelicula debe tener un precio mayor a 1 dolar'
-        ]
+        ],
+
     }),
     props: ['infoName', 'languageItems', 'ratingItems'],
     mounted(){
@@ -140,7 +141,7 @@ export default {
                 "rental_duration": this.rentalDurationEdit,
                 "rental_rate": this.rentalRateEdit,
                 "replacement_cost": this.replacementCostEdit,
-                "rating": this.ratingEdit
+                "rating": this.ratingEdit,
             }
             const api = new Api()
             await api.filmUpdate(body, this.infoPrint.film_id)
